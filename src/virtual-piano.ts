@@ -1,9 +1,13 @@
-import { Note, notesWithSharps } from "./music-theory";
+import { Note, notes, notesWithSharps } from "./music-theory";
 
 function createPiano() {
     const pianoDiv = document.getElementById("piano");
 
     if (!pianoDiv || pianoDiv.hasChildNodes()) {
+        var keys = document.getElementsByClassName("key");
+        for (let i = 0; i < keys.length; i++) {
+            keys[i].classList.remove("active");
+        }
         return;
     }
 
@@ -12,23 +16,35 @@ function createPiano() {
         var octave = Math.floor(i / 12);
 
         const keyDiv = document.createElement("div");
-        keyDiv.classList.add(`key-${key}${octave}`);
-        keyDiv.classList.add("key", key.length === 1 ? "white-key" : "black-key");
+        keyDiv.classList.add('key', `key-${key}`);
+        keyDiv.classList.add(key.length === 1 ? "white-key" : "black-key");
         keyDiv.id = `key-${key}${octave}`;
         pianoDiv.appendChild(keyDiv);
     }
 }
 
-function highlightKey(note: Note, octave: number, on: boolean) {
-    const noteName = note.replace("#", "sharp");
-    const keyId = `key-${noteName}${octave}`;
-    const keyElement = document.getElementById(keyId);
+function getKeyElements(note: Note, octave: number | "all") {
+    const noteName = notesWithSharps[notes[note]].replace("#", "sharp");
 
-    if (keyElement) {
-        if (on) {
-            keyElement.classList.add("active");
-        } else {
-            keyElement.classList.remove("active");
+    if(octave === "all") {
+        return document.getElementsByClassName(`key-${noteName}`);
+    } else {
+        return [ document.getElementById(`key-${noteName}${octave}`) ];
+    }
+}
+
+function highlightKey(note: Note, octave: number | "all", on: boolean) {
+    const keyElements = getKeyElements(note, octave);
+
+    for (let i = 0; i < keyElements.length; i++)
+    {
+        const keyElement = keyElements[i];
+        if (keyElement) {
+            if (on) {
+                keyElement.classList.add("active");
+            } else {
+                keyElement.classList.remove("active");
+            }
         }
     }
 }
