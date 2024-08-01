@@ -37,3 +37,30 @@ WebMidi.enable()
     }
   })
   .catch((err) => console.error("Could not enable WebMidi:", err));
+
+  const noteKeyMap: { [key: string]: Note } = {
+    "z": "C",
+    "s": "C#",
+    "x": "D",
+    "d": "D#",
+    "c": "E",
+    "v": "F",
+    "g": "F#",
+    "b": "G",
+    "h": "G#",
+    "n": "A",
+    "j": "A#",
+    "m": "B",
+  };
+
+  addEventListener("keydown", (event) => {
+    const key = noteKeyMap[event.key];
+    if(key === undefined) return;
+    highlightKey(key as Note, "all", "active", true);
+  });
+
+  addEventListener("keyup", (event) => {
+    const key = noteKeyMap[event.key];
+    if(key === undefined) return;
+    highlightKey(key as Note, "all", "active", false);
+  });
