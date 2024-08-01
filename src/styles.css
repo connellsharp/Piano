@@ -34,15 +34,27 @@ body {
     margin-bottom: 50px;
   }
   
-  .active {
+  .white-key.active {
     background-color: #ffc107 !important;
   }
   
   .black-key.active {
-    background-color: #ff5722 !important;
+    background-color: #fd9a36 !important;
   }
-  
-  #log {
-    margin-top: 20px;
+
+  .white-key.active.wrong {
+    background-color: #f44336 !important;
+  }
+
+  .black-key.active.wrong {
+    background-color: #e71e10 !important;
+  }
+
+  .white-key.active.correct {
+    background-color: #54be58 !important;
+  }
+
+  .black-key.active.correct {
+    background-color: #16a81b !important;
   }
   

@@ -6,7 +6,7 @@ function createPiano() {
     if (!pianoDiv || pianoDiv.hasChildNodes()) {
         var keys = document.getElementsByClassName("key");
         for (let i = 0; i < keys.length; i++) {
-            keys[i].classList.remove("active");
+            keys[i].classList.remove("active", "correct", "wrong");
         }
         return;
     }
@@ -33,7 +33,7 @@ function getKeyElements(note: Note, octave: number | "all") {
     }
 }
 
-function highlightKey(note: Note, octave: number | "all", on: boolean) {
+function highlightKey(note: Note, octave: number | "all", className: "active" | "wrong" | "correct", on: boolean) {
     const keyElements = getKeyElements(note, octave);
 
     for (let i = 0; i < keyElements.length; i++)
@@ -41,9 +41,9 @@ function highlightKey(note: Note, octave: number | "all", on: boolean) {
         const keyElement = keyElements[i];
         if (keyElement) {
             if (on) {
-                keyElement.classList.add("active");
+                keyElement.classList.add(className);
             } else {
-                keyElement.classList.remove("active");
+                keyElement.classList.remove(className);
             }
         }
     }
