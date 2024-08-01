@@ -24,13 +24,14 @@ var notes = {
 
 type Note = keyof typeof notes;
 
-const notesWithSharps: Note[] = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+const simplifiedNotes: Note[] = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+const simplify = (note: Note) => simplifiedNotes[notes[note]];
 
 const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
 
-const shift = (note: Note, degree: number) => notesWithSharps[(notes[note] + degree) % 12];
+const shift = (note: Note, degree: number) => simplifiedNotes[(notes[note] + degree) % 12];
 const createScale = (root: Note, intervals: number[]) => intervals.map(interval => shift(root, interval));
-const scales = notesWithSharps.map(note => createScale(note, majorScaleIntervals));
+const scales = simplifiedNotes.map(note => createScale(note, majorScaleIntervals));
 
 const rotate = (intervals: number[], degree: number) => intervals.map(interval => (12 + interval - intervals[degree]) % 12).sort((a, b) => a - b);
 
@@ -62,4 +63,4 @@ const triadRomanNumerals = {
     "": (_: number) => "unknown",
 }
 
-export { type Note, notes, notesWithSharps, scales, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadsInKey, triadRomanNumerals };
+export { type Note, notes, simplifiedNotes, simplify, scales, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadsInKey, triadRomanNumerals };

@@ -1,20 +1,37 @@
 import { WebMidi, Input } from "webmidi";
-import { createPiano, highlightKey } from "./virtual-piano";
-import { Note, notes, notesWithSharps } from "./music-theory";
+import { createPiano, setNotePressed, setCorrectNotes, onCorrectNotes } from "./virtual-piano";
+import { Note } from "./music-theory";
 import { randomScale } from "./game";
 
 createPiano();
 
 var scale = randomScale();
-
 document.getElementsByTagName("h1")[0].innerText = scale.name;
 
-const simplified = scale.notes.map(note => notesWithSharps[notes[note]]);
-for(var i = 0; i < notesWithSharps.length; i++) {
-    const note = notesWithSharps[i];
-    const correct = simplified.includes(note);
-    highlightKey(note, "all", correct ? "correct" : "wrong", true);
-}
+const askForNote = () => {
+    var nextNote = scale.notes[correctCount];
+    document.getElementsByTagName("h2")[0].innerText = nextNote;
+    setCorrectNotes([nextNote]);
+};
+
+const askForTriad = () => {
+    var nextTriad = scale.randomTriad();
+    document.getElementsByTagName("h2")[0].innerText = nextTriad.name;
+    setCorrectNotes(nextTriad.notes);
+};
+
+var correctCount = 0;
+onCorrectNotes(() => {
+    correctCount++;
+
+    if(correctCount < scale.notes.length) {
+        askForNote();
+    } else {
+        onCorrectNotes(askForTriad);
+    }
+});
+setCorrectNotes([scale.notes[0]]);
+askForNote();
 
 WebMidi.enable()
   .then(() => {
@@ -27,11 +44,11 @@ WebMidi.enable()
         console.log(`Listening to MIDI device: ${input.name}`);
 
         input.addListener("noteon", (event) => {
-            highlightKey(event.note.name as Note, event.note.octave, "active", true);
+            setNotePressed(event.note.name as Note, event.note.octave, true);
         });
 
         input.addListener("noteoff", (event) => {
-            highlightKey(event.note.name as Note, event.note.octave, "active", false);
+            setNotePressed(event.note.name as Note, event.note.octave, false);
         });
       });
     }
@@ -56,11 +73,11 @@ WebMidi.enable()
   addEventListener("keydown", (event) => {
     const key = noteKeyMap[event.key];
     if(key === undefined) return;
-    highlightKey(key as Note, "all", "active", true);
+    setNotePressed(key as Note, "all", true);
   });
 
   addEventListener("keyup", (event) => {
     const key = noteKeyMap[event.key];
     if(key === undefined) return;
-    highlightKey(key as Note, "all", "active", false);
+    setNotePressed(key as Note, "all", false);
   });

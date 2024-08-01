@@ -1,4 +1,4 @@
-import { Note, notes, notesWithSharps } from "./music-theory";
+import { Note, simplifiedNotes, simplify } from "./music-theory";
 
 function createPiano() {
     const pianoDiv = document.getElementById("piano");
@@ -12,7 +12,7 @@ function createPiano() {
     }
 
     for (let i = 3; i <= 19; i++) {
-        var key = notesWithSharps[i % 12].replace("#", "sharp");
+        var key = simplifiedNotes[i % 12].replace("#", "sharp");
         var octave = Math.floor(i / 12);
 
         const keyDiv = document.createElement("div");
@@ -24,7 +24,7 @@ function createPiano() {
 }
 
 function getKeyElements(note: Note, octave: number | "all") {
-    const noteName = notesWithSharps[notes[note]].replace("#", "sharp");
+    const noteName = simplify(note).replace("#", "sharp");
 
     if(octave === "all") {
         return document.getElementsByClassName(`key-${noteName}`);
@@ -49,4 +49,39 @@ function highlightKey(note: Note, octave: number | "all", className: "active" | 
     }
 }
 
-export { createPiano, highlightKey };
+var onCorrectCallback: () => void = () => {};
+var correctNotes = new Set<Note>();
+var pressedNotes = new Set<Note>();
+
+const onCorrectNotes = (callback: () => void) => {
+    onCorrectCallback = callback;
+};
+
+const setCorrectNotes = (notes: Note[]) => {
+    const simplified = notes.map(note => simplify(note));
+
+    correctNotes = new Set(simplified);
+
+    for(var i = 0; i < simplifiedNotes.length; i++) {
+        const note = simplifiedNotes[i];
+        const correct = simplified.includes(note);
+        highlightKey(note, "all", "correct", correct);
+        highlightKey(note, "all", "wrong", !correct);
+    }
+}
+
+const setNotePressed = (note: Note, octave: number | "all", pressed: boolean) => {
+    highlightKey(note, octave, "active", pressed);
+
+    if(pressed) {
+        pressedNotes.add(simplify(note));
+    } else {
+        pressedNotes.delete(simplify(note));
+    }
+    
+    if(pressedNotes.size === correctNotes.size && Array.from(pressedNotes).every(note => correctNotes.has(note))) {
+        onCorrectCallback();
+    }
+};
+
+export { createPiano, setNotePressed, setCorrectNotes, onCorrectNotes };
