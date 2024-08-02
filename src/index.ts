@@ -15,28 +15,9 @@ import { randomScale, Triad } from "./game";
     const scale = randomScale();
     h1.innerText = scale.name;
 
-    const askForNote = (note: Note) => {
-        h2.innerText = note;
-        setCorrectNotes([note]);
-    };
-
     const askForTriad = (triad: Triad) => {
         h2.innerText = triad.name;
         setCorrectNotes(triad.notes);
-    };
-
-    const upAndDown = [0, 1, 2, 3, 4, 5, 6, 0, 6, 5, 4, 3, 2, 1, 0];
-
-    const askForNext = () => {
-        h2.classList.remove("correct");
-
-        if(correctCount < upAndDown.length) {
-            askForNote(scale.notes[upAndDown[correctCount]]);
-        } else if(correctCount === upAndDown.length) {
-            askForTriad(scale.triads[0]);
-        } else {
-            askForTriad(scale.randomTriad());
-        }
     };
 
     var correctCount = 0;
@@ -47,10 +28,11 @@ import { randomScale, Triad } from "./game";
         h2.classList.add("correct");
 
         setTimeout(() => {
-            askForNext();
+            h2.classList.remove("correct");
+            askForTriad(scale.randomTriad());
         }, 500);
     });
-    askForNext();
+    askForTriad(scale.triads[0]);
 
     WebMidi.enable()
     .then(() => {
