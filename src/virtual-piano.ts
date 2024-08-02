@@ -7,7 +7,7 @@ function createPiano() {
         return false;
     }
 
-    for (let i = 3; i <= 19; i++) {
+    for (let i = 3; i <= 26; i++) {
         var key = simplifiedNotes[i % 12].replace("#", "sharp");
         var octave = Math.floor(i / 12);
 

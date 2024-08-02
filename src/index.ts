@@ -8,9 +8,10 @@ import { randomScale, Triad } from "./game";
         return;
     }
 
-    const scaleElement = document.getElementsByTagName("h1")[0];
-    const currentChordElement = document.getElementsByTagName("h2")[0];
-    const nextChordElement = document.getElementsByTagName("h3")[0];
+    const scaleElement = document.getElementById("scale") as HTMLElement;
+    const currentChordElement = document.getElementById("current") as HTMLElement;
+    const nextChordElement = document.getElementById("next") as HTMLElement;
+    const prevChordElement = document.getElementById("prev") as HTMLElement;
 
     const scale = randomScale();
     scaleElement.innerText = scale.name;
@@ -19,6 +20,7 @@ import { randomScale, Triad } from "./game";
         nextChordElement.innerText = triad.name;
 
         piano.onNotesHit(triad.notes, () => {
+            prevChordElement.innerText = currentChordElement.innerText;
             currentChordElement.innerText = triad.name;
             piano.setHighlightNoteColors(triad.notes, scale.notes);
 
