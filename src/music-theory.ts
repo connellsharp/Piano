@@ -51,9 +51,11 @@ const triadIntervals = {
 type TriadName = keyof typeof triadIntervals;
 const triadNames = Object.keys(triadIntervals) as TriadName[];
 
+const getTriadName = (intervals: number[]) => triadNames.find(name => triadIntervals[name].every((interval, i) => interval === intervals[i]));
+
 const getTriad = (root: Note, triad: TriadName) => triadIntervals[triad].map(interval => shift(root, interval));
 
-const getTriadsInKey = (key: Note[]) => [0, 1, 2, 3, 4, 5, 6, 7].map(i => [ key[i], key[(i + 2) % 7], key[(i + 4) % 7] ])
+const getTriadsInKey = (key: Note[]) => [0, 1, 2, 3, 4, 5, 6].map(i => [ key[i], key[(i + 2) % 7], key[(i + 4) % 7] ])
 
 const romanNumerals = ["I", "II", "III", "IV", "V", "VI", "VII"];
 const triadRomanNumerals = {
@@ -63,4 +65,4 @@ const triadRomanNumerals = {
     "": (_: number) => "unknown",
 }
 
-export { type Note, notes, simplifiedNotes, simplify, scales, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadsInKey, triadRomanNumerals };
+export { type Note, notes, simplifiedNotes, simplify, scales, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadName, getTriadsInKey, triadRomanNumerals };

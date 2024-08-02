@@ -1,4 +1,4 @@
-import { Note, simplifiedNotes, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriadsInKey, triadRomanNumerals } from "./music-theory";
+import { Note, simplifiedNotes, modes, modeIntervals, getInterval, createScale, getTriadName, getTriadsInKey, triadRomanNumerals } from "./music-theory";
 import { getOptimalRepresentation } from "./optimal-representation";
 
 const randomFromArray = <T>(array: T[]) => array[Math.floor(Math.random() * array.length)];
@@ -14,7 +14,7 @@ const randomScale = () => {
     
     const triads = triadsInSelectedKey.map(triad => {
         const triadIntervals = triad.map(note => getInterval(triad[0], note));
-        const triadName = triadNames.find(triadName => triadIntervals.every((interval, index) => interval === triadIntervals[index]));
+        const triadName = getTriadName(triadIntervals);
         const triadRomanNumeral = triadRomanNumerals[triadName || ""](triadsInSelectedKey.indexOf(triad));
 
         return {
