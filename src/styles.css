@@ -58,3 +58,6 @@ body {
     background-color: #16a81b !important;
   }
   
+  h2.correct {
+    color: #16a81b;
+  }

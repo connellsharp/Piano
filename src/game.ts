@@ -1,7 +1,9 @@
-import { simplifiedNotes, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriadsInKey, triadRomanNumerals } from "./music-theory";
+import { Note, simplifiedNotes, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriadsInKey, triadRomanNumerals } from "./music-theory";
 import { getOptimalRepresentation } from "./optimal-representation";
 
 const randomFromArray = <T>(array: T[]) => array[Math.floor(Math.random() * array.length)];
+
+type Triad = { name: string, numeral: string, notes: Note[], type: string | number[] };
 
 const randomScale = () => {
     const selectedNote = randomFromArray(simplifiedNotes);
@@ -20,7 +22,7 @@ const randomScale = () => {
             numeral: triadRomanNumeral,
             notes: triad,
             type: triadName || triadIntervals
-        }
+        } as Triad;
     })
 
     return {
@@ -31,4 +33,4 @@ const randomScale = () => {
     };
 }
 
-export { randomScale };
+export { randomScale, Triad };
