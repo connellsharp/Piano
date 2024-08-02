@@ -31,6 +31,10 @@ module.exports = {
     }),
   ],
   devServer: {
-    contentBase: "./dist",
+    static: {
+      directory: path.join(__dirname, "dist"),
+    },
+    hot: true,
   },
+  devtool: 'source-map', // Optional, for better debugging
 };
