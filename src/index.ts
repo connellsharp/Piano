@@ -62,13 +62,15 @@ import { randomScale, Triad } from "./game";
         inputs.forEach((input: Input) => {
             console.log(`Listening to MIDI device: ${input.name}`);
 
-            input.addListener("noteon", (event) => {
-                setNotePressed(event.note.name as Note, event.note.octave, true);
-            });
+            const addNoteListener = (eventName: "noteon" | "noteoff", on: boolean) => {
+                input.addListener(eventName, (event) => {
+                    var note = (event.note.name + (event.note.accidental ?? "")) as Note;
+                    setNotePressed(note, "all", on);
+                });
+            };
 
-            input.addListener("noteoff", (event) => {
-                setNotePressed(event.note.name as Note, event.note.octave, false);
-            });
+            addNoteListener("noteon", true);
+            addNoteListener("noteoff", false);
         });
         }
     })
