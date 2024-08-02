@@ -31,7 +31,7 @@ function getKeyElements(note: Note, octave: number | "all") {
     }
 }
 
-function highlightKey(note: Note, octave: number | "all", className: "active" | "wrong" | "correct", on: boolean) {
+function highlightKey(note: Note, octave: number | "all", className: string, on: boolean) {
     const keyElements = getKeyElements(note, octave);
 
     for (let i = 0; i < keyElements.length; i++)
@@ -56,17 +56,17 @@ const onCorrectNotes = (callback: () => void) => {
     onCorrectCallback = callback;
 };
 
-const setCorrectNotes = (notes: Note[]) => {
-    const simplified = notes.map(note => simplify(note));
+const setCorrectNotes = (chord: Note[], scale: Note[]) => {
+    const simplifiedChord = chord.map(note => simplify(note));
+    const simplifiedScale = scale.map(note => simplify(note));
 
-    correctNotes = new Set(simplified);
+    correctNotes = new Set(simplifiedChord);
     calledCorrect = false;
 
     for(var i = 0; i < simplifiedNotes.length; i++) {
         const note = simplifiedNotes[i];
-        const correct = simplified.includes(note);
-        highlightKey(note, "all", "correct", correct);
-        highlightKey(note, "all", "wrong", !correct);
+        highlightKey(note, "all", "in-chord", simplifiedChord.includes(note));
+        highlightKey(note, "all", "in-scale", simplifiedScale.includes(note));
     }
 }
 

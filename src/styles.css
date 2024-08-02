@@ -33,28 +33,28 @@ body {
     z-index: 2;
     margin-bottom: 50px;
   }
-  
-  .white-key.active {
-    background-color: #ffc107 !important;
-  }
-  
-  .black-key.active {
-    background-color: #fd9a36 !important;
-  }
 
-  .white-key.active.wrong {
+  .white-key.active {
     background-color: #f44336 !important;
   }
-
-  .black-key.active.wrong {
-    background-color: #e71e10 !important;
+  
+  .white-key.active.in-scale {
+    background-color: #cee500 !important;
   }
 
-  .white-key.active.correct {
+  .white-key.active.in-scale.in-chord {
     background-color: #54be58 !important;
   }
 
-  .black-key.active.correct {
+  .black-key.active {
+    background-color: #e71e10 !important;
+  }
+  
+  .black-key.active.in-scale {
+    background-color: #a6cf12 !important;
+  }
+
+  .black-key.active.in-chord {
     background-color: #16a81b !important;
   }
   

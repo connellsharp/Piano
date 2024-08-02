@@ -16,7 +16,7 @@ import { randomScale, Triad } from "./game";
 
     const askForTriad = (triad: Triad) => {
         h2.innerText = triad.name;
-        setCorrectNotes(triad.notes);
+        setCorrectNotes(triad.notes, scale.notes);
     };
 
     var correctCount = 0;
@@ -34,4 +34,4 @@ import { randomScale, Triad } from "./game";
     askForTriad(scale.triads[0]);
 
     setupMidiListener(setNotePressed);
-});
+})();
