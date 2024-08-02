@@ -3,6 +3,17 @@ body {
     text-align: center;
     background-color: #f4f4f4;
   }
+
+  #chords > * {
+    display: inline-block;
+    margin: 0 10px;
+    width: 150px;
+    height: 30px;
+  }
+
+  h3 {
+    color:#838383;
+  }
   
   #piano {
     display: inline-block;
@@ -56,8 +67,4 @@ body {
 
   .black-key.active.in-chord {
     background-color: #16a81b !important;
-  }
-  
-  h2.correct {
-    color: #16a81b;
   }
