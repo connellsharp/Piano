@@ -54,7 +54,6 @@ var onPressedNotesChanged = (pressedNotes: Set<Note>) => { };
 const onNotesHit = (notes: Note[], callback: () => void) => {
     var notesSet = new Set(notes.map(note => simplify(note)));
     onPressedNotesChanged = (pressedNotes) => {
-        console.log(pressedNotes, notesSet);
         if(pressedNotes.size === notesSet.size
             && Array.from(pressedNotes).every(note => notesSet.has(note)))
         {
