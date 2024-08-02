@@ -47,21 +47,26 @@ function highlightKey(note: Note, octave: number | "all", className: string, on:
     }
 }
 
-var onCorrectCallback: () => void = () => {};
-var correctNotes = new Set<Note>();
-var pressedNotes = new Set<Note>();
-var calledCorrect = false;
+const pressedNotes = new Set<Note>();
 
-const onCorrectNotes = (callback: () => void) => {
-    onCorrectCallback = callback;
-};
+var onPressedNotesChanged = (pressedNotes: Set<Note>) => { };
 
-const setCorrectNotes = (chord: Note[], scale: Note[]) => {
+const onNotesHit = (notes: Note[], callback: () => void) => {
+    var notesSet = new Set(notes.map(note => simplify(note)));
+    onPressedNotesChanged = (pressedNotes) => {
+        console.log(pressedNotes, notesSet);
+        if(pressedNotes.size === notesSet.size
+            && Array.from(pressedNotes).every(note => notesSet.has(note)))
+        {
+            onPressedNotesChanged = (_) => { };
+            callback();
+        }
+    };
+}
+
+const setHighlightNoteColors = (chord: Note[], scale: Note[]) => {
     const simplifiedChord = chord.map(note => simplify(note));
     const simplifiedScale = scale.map(note => simplify(note));
-
-    correctNotes = new Set(simplifiedChord);
-    calledCorrect = false;
 
     for(var i = 0; i < simplifiedNotes.length; i++) {
         const note = simplifiedNotes[i];
@@ -78,14 +83,8 @@ const setNotePressed = (note: Note, octave: number | "all", pressed: boolean) =>
     } else {
         pressedNotes.delete(simplify(note));
     }
-    
-    if(calledCorrect === false
-        && pressedNotes.size === correctNotes.size
-        && Array.from(pressedNotes).every(note => correctNotes.has(note)))
-    {
-        calledCorrect = true;
-        onCorrectCallback();
-    }
+
+    onPressedNotesChanged(pressedNotes);
 };
 
-export { createPiano, setNotePressed, setCorrectNotes, onCorrectNotes };
+export { createPiano, setNotePressed, setHighlightNoteColors, onNotesHit };

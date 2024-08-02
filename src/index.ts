@@ -1,37 +1,33 @@
-import { createPiano, setNotePressed, setCorrectNotes, onCorrectNotes } from "./virtual-piano";
+import * as piano from "./virtual-piano";
 import { setupMidiListener } from "./midi";
 import { randomScale, Triad } from "./game";
 
 (function() {
-    if(!createPiano()) {
+    if(!piano.createPiano()) {
         // I dunno why this loads twice, so just ignore the second time
         return;
     }
 
-    const h1 = document.getElementsByTagName("h1")[0];
-    const h2 = document.getElementsByTagName("h2")[0];
+    const scaleElement = document.getElementsByTagName("h1")[0];
+    const currentChordElement = document.getElementsByTagName("h2")[0];
+    const nextChordElement = document.getElementsByTagName("h3")[0];
 
     const scale = randomScale();
-    h1.innerText = scale.name;
+    scaleElement.innerText = scale.name;
 
     const askForTriad = (triad: Triad) => {
-        h2.innerText = triad.name;
-        setCorrectNotes(triad.notes, scale.notes);
+        nextChordElement.innerText = triad.name;
+
+        piano.onNotesHit(triad.notes, () => {
+            currentChordElement.innerText = triad.name;
+            piano.setHighlightNoteColors(triad.notes, scale.notes);
+
+            askForTriad(scale.randomTriad());
+        });
     };
 
-    var correctCount = 0;
-    onCorrectNotes(() => {
-        correctCount++;
-
-        h2.innerText = "Well done!";
-        h2.classList.add("correct");
-
-        setTimeout(() => {
-            h2.classList.remove("correct");
-            askForTriad(scale.randomTriad());
-        }, 500);
-    });
+    piano.setHighlightNoteColors([], scale.notes);
     askForTriad(scale.triads[0]);
 
-    setupMidiListener(setNotePressed);
+    setupMidiListener(piano.setNotePressed);
 })();
