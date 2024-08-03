@@ -17,11 +17,11 @@ import { randomScale, Triad } from "./game";
     scaleElement.innerText = scale.name;
 
     const askForTriad = (triad: Triad) => {
-        nextChordElement.innerText = triad.name;
+        nextChordElement.innerHTML = triad.name + '<div class="numeral">' + triad.numeral + '</div>';
 
         piano.onNotesHit(triad.notes, () => {
-            prevChordElement.innerText = currentChordElement.innerText;
-            currentChordElement.innerText = triad.name;
+            prevChordElement.innerHTML = currentChordElement.innerHTML;
+            currentChordElement.innerHTML = nextChordElement.innerHTML;
             piano.setHighlightNoteColors(triad.notes, scale.notes);
 
             askForTriad(scale.randomTriad());

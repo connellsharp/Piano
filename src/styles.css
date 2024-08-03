@@ -4,6 +4,10 @@ body {
     background-color: #f4f4f4;
   }
 
+  #chords {
+    height: 55px;
+  }
+
   #chords > * {
     display: inline-block;
     margin: 0 10px;
@@ -13,6 +17,11 @@ body {
 
   h3 {
     color:#838383;
+  }
+
+  .numeral {
+    font-size: 0.6em;
+    margin-top: 10px;
   }
   
   #piano {
