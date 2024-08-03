@@ -1,30 +1,30 @@
 var notes = {
   "A": 0,
-  "A#": 1,
-  "Bb": 1,
+  "A♯": 1,
+  "B♭": 1,
   "B": 2,
-  "B#": 3,
-  "Cb": 2,
+  "B♯": 3,
+  "C♭": 2,
   "C": 3,
-  "C#": 4,
-  "Db": 4,
+  "C♯": 4,
+  "D♭": 4,
   "D": 5,
-  "D#": 6,
-  "Eb": 6,
+  "D♯": 6,
+  "E♭": 6,
   "E": 7,
-  "E#": 8,
-  "Fb": 7,
+  "E♯": 8,
+  "F♭": 7,
   "F": 8,
-  "F#": 9,
-  "Gb": 9,
+  "F♯": 9,
+  "G♭": 9,
   "G": 10,
-  "G#": 11,
-  "Ab": 11,
+  "G♯": 11,
+  "A♭": 11,
 }
 
 type Note = keyof typeof notes;
 
-const simplifiedNotes: Note[] = ["A", "A#", "B", "C", "C#", "D", "D#", "E", "F", "F#", "G", "G#"];
+const simplifiedNotes: Note[] = ["A", "A♯", "B", "C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯"];
 const simplify = (note: Note) => simplifiedNotes[notes[note]];
 
 const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];

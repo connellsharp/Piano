@@ -14,7 +14,7 @@ const setupMidiListener = (onNotePressed: (note: Note, octave: number | "all", p
 
                 const addNoteListener = (eventName: "noteon" | "noteoff", on: boolean) => {
                     input.addListener(eventName, (event) => {
-                        var note = (event.note.name + (event.note.accidental ?? "")) as Note;
+                        var note = (event.note.name + (event.note.accidental ?? "").replace('#', '♯')) as Note;
                         onNotePressed(note, "all", on);
                     });
                 };
@@ -28,16 +28,16 @@ const setupMidiListener = (onNotePressed: (note: Note, octave: number | "all", p
 
     const noteKeyMap: { [key: string]: Note } = {
         "z": "C",
-        "s": "C#",
+        "s": "C♯",
         "x": "D",
-        "d": "D#",
+        "d": "D♯",
         "c": "E",
         "v": "F",
-        "g": "F#",
+        "g": "F♯",
         "b": "G",
-        "h": "G#",
+        "h": "G♯",
         "n": "A",
-        "j": "A#",
+        "j": "A♯",
         "m": "B",
     };
 
