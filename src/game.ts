@@ -3,6 +3,7 @@ import { getOptimalRepresentation } from "./optimal-representation";
 import { generateChordProgression } from "./chord-progressions";
 
 const randomFromArray = <T>(array: T[]) => array[Math.floor(Math.random() * array.length)];
+const toTitleCase = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 type Triad = { name: string, numeral: string, notes: Note[], type: string | number[] };
 
@@ -30,7 +31,7 @@ const randomScale = () => {
     let position = 0;
 
     return {
-        name: selectedKey[0] + " " + selectedMode,
+        name: selectedKey[0] + " " + toTitleCase(selectedMode),
         notes: selectedKey,
         triads: triads,
         nextTriad: () => {
