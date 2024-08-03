@@ -1,5 +1,6 @@
 import { Note, simplifiedNotes, modes, modeIntervals, getInterval, createScale, getTriadName, getTriadsInKey, triadRomanNumerals } from "./music-theory";
 import { getOptimalRepresentation } from "./optimal-representation";
+import { generateChordProgression } from "./chord-progressions";
 
 const randomFromArray = <T>(array: T[]) => array[Math.floor(Math.random() * array.length)];
 
@@ -23,13 +24,26 @@ const randomScale = () => {
             notes: triad,
             type: triadName || triadIntervals
         } as Triad;
-    })
+    });
+
+    var progression = generateChordProgression(selectedMode);
+    let position = 0;
 
     return {
         name: selectedKey[0] + " " + selectedMode,
         notes: selectedKey,
         triads: triads,
-        randomTriad: () => randomFromArray(triads),
+        nextTriad: () => {
+            var triad = triads[progression[position] - 1];
+
+            position++;
+            if(position >= progression.length) {
+                progression = generateChordProgression(selectedMode);
+                position = 0;
+            }
+
+            return triad;
+        }
     };
 }
 

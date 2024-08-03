@@ -65,4 +65,4 @@ const triadRomanNumerals = {
     "": (_: number) => "unknown",
 }
 
-export { type Note, notes, simplifiedNotes, simplify, scales, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadName, getTriadsInKey, triadRomanNumerals };
+export { type Note, notes, simplifiedNotes, simplify, scales, Mode, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadName, getTriadsInKey, triadRomanNumerals };

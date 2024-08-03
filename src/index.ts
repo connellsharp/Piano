@@ -24,12 +24,12 @@ import { randomScale, Triad } from "./game";
             currentChordElement.innerHTML = nextChordElement.innerHTML;
             piano.setHighlightNoteColors(triad.notes, scale.notes);
 
-            askForTriad(scale.randomTriad());
+            askForTriad(scale.nextTriad());
         });
     };
 
     piano.setHighlightNoteColors([], scale.notes);
-    askForTriad(scale.triads[0]);
+    askForTriad(scale.nextTriad());
 
     setupMidiListener(piano.setNotePressed);
 })();
