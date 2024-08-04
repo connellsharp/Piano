@@ -1,6 +1,6 @@
 import * as piano from "./virtual-piano";
 import { setupMidiListener } from "./midi";
-import { randomScale, Triad } from "./game";
+import { randomScale } from "./game";
 
 (function() {
     if(!piano.createPiano()) {
@@ -9,27 +9,54 @@ import { randomScale, Triad } from "./game";
     }
 
     const scaleElement = document.getElementById("scale") as HTMLElement;
-    const currentChordElement = document.getElementById("current") as HTMLElement;
-    const nextChordElement = document.getElementById("next") as HTMLElement;
-    const prevChordElement = document.getElementById("prev") as HTMLElement;
+    const chordElements = document.getElementsByClassName("chord");
 
     const scale = randomScale();
     scaleElement.innerText = scale.name;
 
-    const askForTriad = (triad: Triad) => {
-        nextChordElement.innerHTML = triad.name + '<div class="numeral">' + triad.numeral + '</div>';
+    var progression : number[] = [];
+
+    const newProgression = () => {
+        progression = scale.generateChordProgression();
+
+        for(let i = 0; i < progression.length; i++) {
+            var triad = scale.triads[progression[i] - 1];
+            chordElements[i].innerHTML = '<div class="name">' + triad.name + '</div>' + '<div class="numeral">' + triad.numeral + '</div>';
+        }
+    };
+
+    const highlightPosition = (position: number) => {
+        for(let i = 0; i < progression.length; i++) {
+            if(i === position) {
+                chordElements[i].classList.add("active");
+            } else {
+                chordElements[i].classList.remove("active");
+            }
+        }
+    };
+
+    const askForTriad = (position: number, createNewOnHit: boolean) => {
+        var triad = scale.triads[progression[position] - 1];
 
         piano.onNotesHit(triad.notes, () => {
-            prevChordElement.innerHTML = currentChordElement.innerHTML;
-            currentChordElement.innerHTML = nextChordElement.innerHTML;
+            highlightPosition(position);
             piano.setHighlightNoteColors(triad.notes, scale.notes);
 
-            askForTriad(scale.nextTriad());
+            if(createNewOnHit) {
+                newProgression();
+            }
+
+            if(position === progression.length-1) {
+                askForTriad(0, true);
+            } else {
+                askForTriad(position + 1, false);
+            }
         });
     };
 
     piano.setHighlightNoteColors([], scale.notes);
-    askForTriad(scale.nextTriad());
+    newProgression();
+    askForTriad(0, false);
 
     setupMidiListener(piano.setNotePressed);
 })();

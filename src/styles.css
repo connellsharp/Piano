@@ -8,20 +8,27 @@ body {
     height: 55px;
   }
 
-  #chords > * {
+  .chord {
     display: inline-block;
     margin: 0 10px;
-    width: 170px;
-    height: 30px;
+    width: 150px;
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #aaa;
   }
 
-  h3 {
-    color:#838383;
+  .chord.active {
+    color: black;
+  }
+
+  .chord .name {
+    height: 30px;
+    line-height: 30px;
   }
 
   .numeral {
-    font-size: 0.6em;
-    margin-top: 10px;
+    font-size: 0.8em;
+    margin-top: 5px;
   }
   
   #piano {

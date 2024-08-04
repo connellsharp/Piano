@@ -27,24 +27,11 @@ const randomScale = () => {
         } as Triad;
     });
 
-    var progression = generateChordProgression(selectedMode);
-    let position = 0;
-
     return {
         name: selectedKey[0] + " " + toTitleCase(selectedMode),
         notes: selectedKey,
         triads: triads,
-        nextTriad: () => {
-            var triad = triads[progression[position] - 1];
-
-            position++;
-            if(position >= progression.length) {
-                progression = generateChordProgression(selectedMode);
-                position = 0;
-            }
-
-            return triad;
-        }
+        generateChordProgression: () => generateChordProgression(selectedMode)
     };
 }
 
