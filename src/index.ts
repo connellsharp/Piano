@@ -38,9 +38,10 @@ import { randomScale } from "./game";
     const askForTriad = (position: number, createNewOnHit: boolean) => {
         var triad = scale.triads[progression[position] - 1];
 
+        piano.setHighlightNoteColors("in-next-chord", triad.notes);
         piano.onNotesHit(triad.notes, () => {
             highlightPosition(position);
-            piano.setHighlightNoteColors(triad.notes, scale.notes);
+            piano.setHighlightNoteColors("in-chord", triad.notes);
 
             if(createNewOnHit) {
                 newProgression();
@@ -54,7 +55,7 @@ import { randomScale } from "./game";
         });
     };
 
-    piano.setHighlightNoteColors([], scale.notes);
+    piano.setHighlightNoteColors("in-scale", scale.notes);
     newProgression();
     askForTriad(0, false);
 

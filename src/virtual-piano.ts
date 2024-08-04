@@ -63,14 +63,12 @@ const onNotesHit = (notes: Note[], callback: () => void) => {
     };
 }
 
-const setHighlightNoteColors = (chord: Note[], scale: Note[]) => {
-    const simplifiedChord = chord.map(note => simplify(note));
-    const simplifiedScale = scale.map(note => simplify(note));
+const setHighlightNoteColors = (className: string, notes: Note[]) => {
+    const simplified = notes.map(note => simplify(note));
 
     for(var i = 0; i < simplifiedNotes.length; i++) {
         const note = simplifiedNotes[i];
-        highlightKey(note, "all", "in-chord", simplifiedChord.includes(note));
-        highlightKey(note, "all", "in-scale", simplifiedScale.includes(note));
+        highlightKey(note, "all", className, simplified.includes(note));
     }
 }
 
