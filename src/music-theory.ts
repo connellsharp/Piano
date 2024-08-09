@@ -29,7 +29,7 @@ const simplify = (note: Note) => simplifiedNotes[notes[note]];
 
 const majorScaleIntervals = [0, 2, 4, 5, 7, 9, 11];
 
-const shift = (note: Note, degree: number) => simplifiedNotes[(notes[note] + degree) % 12];
+const shift = (note: Note, degree: number) => simplifiedNotes[(12 + notes[note] + degree) % 12];
 const createScale = (root: Note, intervals: number[]) => intervals.map(interval => shift(root, interval));
 const scales = simplifiedNotes.map(note => createScale(note, majorScaleIntervals));
 
@@ -65,4 +65,7 @@ const triadRomanNumerals = {
     "": (_: number) => "unknown",
 }
 
-export { type Note, notes, simplifiedNotes, simplify, scales, Mode, modes, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadName, getTriadsInKey, triadRomanNumerals };
+const modesByBrightness : Mode[] = [ "locrian", "phrygian", "aeolian", "dorian", "mixolydian", "ionian", "lydian" ];
+const shiftBrightness = (mode: Mode, steps: number) => modesByBrightness[(7 + modesByBrightness.indexOf(mode) + steps) % 7];
+
+export { type Note, notes, simplifiedNotes, simplify, shift, scales, Mode, modes, modesByBrightness, shiftBrightness, modeIntervals, getInterval, createScale, triadIntervals, triadNames, getTriad, getTriadName, getTriadsInKey, triadRomanNumerals };

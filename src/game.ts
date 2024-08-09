@@ -1,4 +1,4 @@
-import { Note, simplifiedNotes, modes, modeIntervals, getInterval, createScale, getTriadName, getTriadsInKey, triadRomanNumerals } from "./music-theory";
+import { Note, simplifiedNotes, Mode, modes, modeIntervals, getInterval, createScale, getTriadName, getTriadsInKey, triadRomanNumerals, shift, shiftBrightness, modesByBrightness } from "./music-theory";
 import { getOptimalRepresentation } from "./optimal-representation";
 import { generateChordProgression } from "./chord-progressions";
 
@@ -7,10 +7,8 @@ const toTitleCase = (str: string) => str[0].toUpperCase() + str.slice(1);
 
 type Triad = { name: string, numeral: string, notes: Note[], type: string | number[] };
 
-const randomScale = () => {
-    const selectedNote = randomFromArray(simplifiedNotes);
-    const selectedMode = randomFromArray(modes);
-    const selectedKeyWithSharps = createScale(selectedNote, modeIntervals[modes.indexOf(selectedMode)]);
+const createScaleData = (note: Note, mode: Mode) => {
+    const selectedKeyWithSharps = createScale(note, modeIntervals[modes.indexOf(mode)]);
     const selectedKey = getOptimalRepresentation(selectedKeyWithSharps);
     const triadsInSelectedKey = getTriadsInKey(selectedKey);
     
@@ -28,11 +26,31 @@ const randomScale = () => {
     });
 
     return {
-        name: selectedKey[0] + " " + toTitleCase(selectedMode),
+        name: selectedKey[0] + " " + toTitleCase(mode),
         notes: selectedKey,
         triads: triads,
-        generateChordProgression: () => generateChordProgression(selectedMode)
+        generateChordProgression: () => generateChordProgression(mode)
     };
 }
 
-export { randomScale, Triad };
+const startGame = () => {
+    let currentNote = randomFromArray(simplifiedNotes);
+    let currentMode = randomFromArray(modes);
+    debugger;
+
+    return {
+        getScale: () => createScaleData(currentNote, currentMode),
+        moveFifth: (steps: number) => {
+            currentNote = shift(currentNote, steps * 7);
+        },
+        moveBrightness: (steps: number) => {
+            const currentBrightness = modesByBrightness.indexOf(currentMode);
+            const newBrightness = currentBrightness + steps;
+            
+            currentMode = modesByBrightness[(7 + newBrightness) % 7];
+            currentNote = shift(currentNote, Math.floor(newBrightness / 7));
+        }
+    }
+};
+
+export { startGame, Triad };

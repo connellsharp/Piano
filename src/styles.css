@@ -4,6 +4,45 @@ body {
     background-color: #f4f4f4;
   }
 
+  h1 {
+    display:inline-block;
+    width:350px;
+    line-height: 50px;
+    vertical-align: middle;
+  }
+
+  .button-container {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .button-container button {
+    background-color: transparent;
+    border: none;
+    color: #aaa;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 5px;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+
+  .button-container button::before {
+      font-size: 14px;
+  }
+
+  .button-container button.up::before {
+      content: "\25B2"; /* Unicode for up arrow */
+  }
+
+
+  .button-container button.down::before {
+      content: "\25BC"; /* Unicode for down arrow */
+  }
+
   #chords {
     height: 55px;
   }
